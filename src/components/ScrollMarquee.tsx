@@ -1,9 +1,13 @@
-import { useEffect, useRef } from 'react'
+import { motion, useScroll, useSpring, useTransform } from 'framer-motion'
+import { useRef } from 'react'
 import { MARQUEE_ROW1_IMAGES, MARQUEE_ROW2_IMAGES } from '../data/projects'
 
 const TILE_WIDTH = 420
 const TILE_HEIGHT = 270
-const INITIAL_OFFSET = 200
+
+/** How far rows travel while the section scrolls through the viewport */
+const TRAVEL_PX = 520
+const START_OFFSET = 220
 
 function tripleImages(images: { src: string; alt: string }[]) {
   return [...images, ...images, ...images]
@@ -14,44 +18,29 @@ const ROW2_IMAGES = tripleImages(MARQUEE_ROW2_IMAGES)
 
 export default function ScrollMarquee() {
   const sectionRef = useRef<HTMLElement>(null)
-  const row1Ref = useRef<HTMLDivElement>(null)
-  const row2Ref = useRef<HTMLDivElement>(null)
-  const rafId = useRef<number | null>(null)
 
-  useEffect(() => {
-    const update = () => {
-      rafId.current = null
-      const el = sectionRef.current
-      const row1 = row1Ref.current
-      const row2 = row2Ref.current
-      if (!el || !row1 || !row2) return
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start end', 'end start'],
+  })
 
-      const rect = el.getBoundingClientRect()
-      const sectionTop = rect.top + window.scrollY
-      const scrollOffset = (window.scrollY - sectionTop + window.innerHeight) * 0.3
-      const x1 = scrollOffset - INITIAL_OFFSET
-      const x2 = -(scrollOffset - INITIAL_OFFSET)
+  const smoothProgress = useSpring(scrollYProgress, {
+    stiffness: 90,
+    damping: 28,
+    mass: 0.25,
+    restDelta: 0.001,
+  })
 
-      row1.style.transform = `translate3d(${x1}px, 0, 0)`
-      row2.style.transform = `translate3d(${x2}px, 0, 0)`
-    }
-
-    const schedule = () => {
-      if (rafId.current === null) {
-        rafId.current = requestAnimationFrame(update)
-      }
-    }
-
-    schedule()
-    window.addEventListener('scroll', schedule, { passive: true })
-    window.addEventListener('resize', schedule, { passive: true })
-
-    return () => {
-      window.removeEventListener('scroll', schedule)
-      window.removeEventListener('resize', schedule)
-      if (rafId.current !== null) cancelAnimationFrame(rafId.current)
-    }
-  }, [])
+  const row1X = useTransform(
+    smoothProgress,
+    [0, 1],
+    [-START_OFFSET, TRAVEL_PX - START_OFFSET],
+  )
+  const row2X = useTransform(
+    smoothProgress,
+    [0, 1],
+    [START_OFFSET, -(TRAVEL_PX - START_OFFSET)],
+  )
 
   return (
     <section
@@ -60,11 +49,7 @@ export default function ScrollMarquee() {
       aria-label="Project gallery marquee"
     >
       <div className="flex flex-col gap-3">
-        <div
-          ref={row1Ref}
-          className="marquee-row flex gap-3"
-          style={{ transform: `translate3d(-${INITIAL_OFFSET}px, 0, 0)` }}
-        >
+        <motion.div style={{ x: row1X }} className="marquee-row flex gap-3">
           {ROW1_IMAGES.map((img, i) => (
             <img
               key={`r1-${i}`}
@@ -77,12 +62,8 @@ export default function ScrollMarquee() {
               className="h-[270px] w-[420px] shrink-0 rounded-2xl object-cover"
             />
           ))}
-        </div>
-        <div
-          ref={row2Ref}
-          className="marquee-row flex gap-3"
-          style={{ transform: `translate3d(${INITIAL_OFFSET}px, 0, 0)` }}
-        >
+        </motion.div>
+        <motion.div style={{ x: row2X }} className="marquee-row flex gap-3">
           {ROW2_IMAGES.map((img, i) => (
             <img
               key={`r2-${i}`}
@@ -95,7 +76,7 @@ export default function ScrollMarquee() {
               className="h-[270px] w-[420px] shrink-0 rounded-2xl object-cover"
             />
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   )
