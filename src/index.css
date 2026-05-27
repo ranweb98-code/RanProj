@@ -2,6 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: 'Sharpie';
+  src: url('/fonts/sharpie/Sharpie-Variable.woff2') format('woff2');
+  font-weight: 300 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Sharpie';
+  src: url('/fonts/sharpie/Sharpie-Extrabold.woff2') format('woff2');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
 * {
   font-family: 'Heebo', system-ui, -apple-system, sans-serif;
 }

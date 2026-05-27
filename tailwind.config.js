@@ -12,6 +12,7 @@ export default {
         },
       },
       fontFamily: {
+        sharpie: ['Sharpie', 'Heebo', 'sans-serif'],
         serif: ['"Instrument Serif"', 'serif'],
         display: ['Syne', 'Heebo', 'sans-serif'],
       },
