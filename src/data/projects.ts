@@ -62,22 +62,33 @@ export const PROJECTS: Project[] = [
   },
 ]
 
-/** Base marquee tiles (tripled in ScrollMarquee for seamless loop) */
-export const MARQUEE_IMAGES: { src: string; alt: string }[] = [
-  { src: LIA_IMAGE, alt: 'LIA Estate project screenshot' },
-  { src: DREAM_IMAGE, alt: 'Dream Build Homes project screenshot' },
-  { src: LIA_IMAGE, alt: 'LIA Estate layout preview' },
-  { src: DREAM_IMAGE, alt: 'Dream Build Homes landing page' },
-  {
-    src: 'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260405_171918_4a5edc79-d78f-4637-ac8b-53c43c220606.png&w=640&q=80',
-    alt: 'Kube Eliyahu brand site preview',
-  },
-  {
-    src: 'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260405_171741_ed9845ab-f5b2-4018-8ce7-07cc01823522.png&w=640&q=80',
-    alt: 'Portfolio web design preview',
-  },
-  { src: LIA_IMAGE, alt: 'Property showcase UI' },
-  { src: DREAM_IMAGE, alt: 'Construction site CTA design' },
+/** Marquee row 1 — first 11 preview GIFs (tripled in ScrollMarquee) */
+export const MARQUEE_ROW1_IMAGES: { src: string; alt: string }[] = [
+  { src: 'https://motionsites.ai/assets/hero-space-voyage-preview-eECLH3Yc.gif', alt: 'Space Voyage website preview' },
+  { src: 'https://motionsites.ai/assets/hero-codenest-preview-Cgppc2qV.gif', alt: 'CodeNest website preview' },
+  { src: 'https://motionsites.ai/assets/hero-vex-ventures-preview-BczMFIiw.gif', alt: 'Vex Ventures website preview' },
+  { src: 'https://motionsites.ai/assets/hero-stellar-ai-v2-preview-DjvxjG3C.gif', alt: 'Stellar AI v2 website preview' },
+  { src: 'https://motionsites.ai/assets/hero-asme-preview-B_nGDnTP.gif', alt: 'ASME website preview' },
+  { src: 'https://motionsites.ai/assets/hero-transform-data-preview-Cx5OU29N.gif', alt: 'Transform Data website preview' },
+  { src: 'https://motionsites.ai/assets/hero-vitara-preview-Cjz2QYyU.gif', alt: 'Vitara website preview' },
+  { src: 'https://motionsites.ai/assets/hero-terra-preview-BFjrCr7T.gif', alt: 'Terra website preview' },
+  { src: 'https://motionsites.ai/assets/hero-skyelite-preview-DHaZIgUv.gif', alt: 'SkyElite website preview' },
+  { src: 'https://motionsites.ai/assets/hero-aethera-preview-DknSlcTa.gif', alt: 'Aethera website preview' },
+  { src: 'https://motionsites.ai/assets/hero-designpro-preview-D8c5_een.gif', alt: 'DesignPro website preview' },
+]
+
+/** Marquee row 2 — remaining 10 preview GIFs (tripled in ScrollMarquee) */
+export const MARQUEE_ROW2_IMAGES: { src: string; alt: string }[] = [
+  { src: 'https://motionsites.ai/assets/hero-stellar-ai-preview-D3HL6bw1.gif', alt: 'Stellar AI website preview' },
+  { src: 'https://motionsites.ai/assets/hero-xportfolio-preview-D4A8maiC.gif', alt: 'X Portfolio website preview' },
+  { src: 'https://motionsites.ai/assets/hero-orbit-web3-preview-BXt4OttD.gif', alt: 'Orbit Web3 website preview' },
+  { src: 'https://motionsites.ai/assets/hero-nexora-preview-cx5HmUgo.gif', alt: 'Nexora website preview' },
+  { src: 'https://motionsites.ai/assets/hero-evr-ventures-preview-DZxeVFEX.gif', alt: 'EVR Ventures website preview' },
+  { src: 'https://motionsites.ai/assets/hero-planet-orbit-preview-DWAP8Z1P.gif', alt: 'Planet Orbit website preview' },
+  { src: 'https://motionsites.ai/assets/hero-new-era-preview-CocuDUm9.gif', alt: 'New Era website preview' },
+  { src: 'https://motionsites.ai/assets/hero-wealth-preview-B70idl_u.gif', alt: 'Wealth website preview' },
+  { src: 'https://motionsites.ai/assets/hero-luminex-preview-CxOP7ce6.gif', alt: 'Luminex website preview' },
+  { src: 'https://motionsites.ai/assets/hero-celestia-preview-0yO3jXO8.gif', alt: 'Celestia website preview' },
 ]
 
 export const ABOUT_SCROLL_TEXT =

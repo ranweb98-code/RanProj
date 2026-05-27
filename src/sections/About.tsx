@@ -66,7 +66,7 @@ const SERVICES = [
 
 export default function About() {
   return (
-    <section id="about" className="relative bg-black px-4 py-20 sm:px-6 md:py-28 lg:px-8">
+    <section id="about" className="relative scroll-mt-20 bg-black px-4 py-20 sm:px-6 md:py-28 lg:px-8">
       <div
         id="why"
         className="about-panel relative mx-auto max-w-6xl overflow-visible rounded-[2rem] border border-gold/20 px-6 py-14 sm:rounded-[2.5rem] sm:px-10 sm:py-20 md:py-24"
@@ -92,7 +92,7 @@ export default function About() {
             className="text-xl sm:text-2xl md:text-3xl lg:text-[2rem] lg:leading-[1.4]"
           />
 
-          <div className="mt-20 md:mt-28">
+          <div id="services" className="mt-20 scroll-mt-24 md:mt-28">
             <AboutTitle
               eyebrow="What I deliver"
               title="Services"

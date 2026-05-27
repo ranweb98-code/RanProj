@@ -1,7 +1,7 @@
-import { useState } from 'react'
+import { useState, type KeyboardEvent } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import WordsPullUp from '../components/WordsPullUp'
-import AnimatedLetter from '../components/AnimatedLetter'
+import { submitContactToWeb3Forms } from '../utils/contactSubmit'
 
 const STEPS = [
   {
@@ -42,6 +42,8 @@ type FormData = {
 
 export default function Contact() {
   const [step, setStep] = useState(1)
+  const [submitting, setSubmitting] = useState(false)
+  const [submitError, setSubmitError] = useState<string | null>(null)
   const [form, setForm] = useState<FormData>({
     name: '',
     contact: '',
@@ -61,9 +63,31 @@ export default function Contact() {
           ? form.project.trim().length > 0
           : false
 
-  const handleContinue = () => {
-    if (step < 3 && canContinue) setStep((s) => s + 1)
-    else if (step === 3 && canContinue) setStep(4)
+  const handleContinue = async () => {
+    if (step < 3 && canContinue) {
+      setSubmitError(null)
+      setStep((s) => s + 1)
+      return
+    }
+    if (step !== 3 || !canContinue || submitting) return
+
+    setSubmitting(true)
+    setSubmitError(null)
+    const result = await submitContactToWeb3Forms(form)
+    setSubmitting(false)
+
+    if (result.ok) {
+      setStep(4)
+    } else {
+      setSubmitError(result.message)
+    }
+  }
+
+  const handleKeyDown = (e: KeyboardEvent) => {
+    if (e.key === 'Enter' && !e.shiftKey && canContinue && !isDone && !submitting) {
+      e.preventDefault()
+      void handleContinue()
+    }
   }
 
   const handleBack = () => {
@@ -73,7 +97,7 @@ export default function Contact() {
   return (
     <section
       id="contact"
-      className="bg-black px-4 py-16 text-[#E1E0CC] sm:px-6 md:py-24 lg:px-8"
+      className="scroll-mt-20 bg-black px-4 py-16 text-[#E1E0CC] sm:px-6 md:py-24 lg:px-8"
     >
       <div className="mx-auto max-w-2xl text-center">
         <WordsPullUp
@@ -106,6 +130,7 @@ export default function Contact() {
                 ease: [0.16, 1, 0.3, 1],
               }}
               className="min-h-[200px] text-left"
+              onKeyDown={handleKeyDown}
             >
               <h3 className="mb-6 text-lg font-medium text-primary sm:text-xl">
                 {current.question}
@@ -141,48 +166,54 @@ export default function Contact() {
               )}
 
               {current.type === 'done' && (
-                <p className="text-sm text-gray-400 sm:text-base">
-                  I&apos;ll get back to you as soon as I can.
-                </p>
+                <div className="space-y-4">
+                  <p className="text-sm text-gray-400 sm:text-base">
+                    הטופס נשלח בהצלחה. אחזור אליך בהקדם — בדרך כלל תוך 24 שעות.
+                  </p>
+                  <button
+                    type="button"
+                    disabled={submitting}
+                    onClick={() => {
+                      setForm({ name: '', contact: '', project: '' })
+                      setStep(1)
+                      setSubmitError(null)
+                    }}
+                    className="rounded-full bg-primary px-6 py-2.5 text-xs font-medium text-black transition-opacity hover:opacity-90 disabled:opacity-40 sm:text-sm"
+                  >
+                    שליחה נוספת
+                  </button>
+                </div>
               )}
             </motion.div>
           </AnimatePresence>
+
+          {submitError && (
+            <p className="mt-4 text-left text-sm text-red-400" role="alert">
+              {submitError}
+            </p>
+          )}
 
           {!isDone && (
             <div className="mt-8 flex items-center justify-between gap-3">
               <button
                 type="button"
                 onClick={handleBack}
-                disabled={step === 1}
+                disabled={step === 1 || submitting}
                 className="rounded-full border border-white/10 px-5 py-2.5 text-xs font-medium text-gray-400 transition-colors hover:text-primary disabled:opacity-30 sm:text-sm"
               >
                 Back
               </button>
               <button
                 type="button"
-                onClick={handleContinue}
-                disabled={!canContinue}
+                onClick={() => void handleContinue()}
+                disabled={!canContinue || submitting}
                 className="rounded-full bg-primary px-6 py-2.5 text-xs font-medium text-black transition-opacity hover:opacity-90 disabled:opacity-40 sm:text-sm"
               >
-                Continue
+                {submitting && step === 3 ? 'שולח…' : 'Continue'}
               </button>
             </div>
           )}
         </div>
-
-        <div className="mt-16 hidden sm:block">
-          <AnimatedLetter
-            text="wb.dev"
-            className="justify-center text-xs tracking-[0.3em] text-gray-600 uppercase"
-          />
-        </div>
-
-        <footer className="mt-12 flex flex-col items-center justify-between gap-3 border-t border-white/5 pt-8 text-xs text-gray-500 sm:flex-row sm:items-center">
-          <span>© 2026 — Web builds & landing pages.</span>
-          <span className="text-center sm:text-right">
-            Built with care — performance, clarity, and shipping on time.
-          </span>
-        </footer>
       </div>
     </section>
   )

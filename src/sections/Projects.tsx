@@ -3,6 +3,7 @@ import { useRef } from 'react'
 import { ArrowRight } from 'lucide-react'
 import FadeIn from '../components/FadeIn'
 import { PROJECTS, type Project, type ProjectMedia } from '../data/projects'
+import { openProjectInquiry } from '../utils/navigation'
 
 const TOTAL_CARDS = PROJECTS.length
 
@@ -109,12 +110,14 @@ function StickyProjectCard({ project, index }: { project: Project; index: number
           </div>
 
           <div className="mt-6 flex justify-end">
-            <span
-              role="presentation"
-              className="flex h-11 w-11 items-center justify-center rounded-full border border-white/10 text-primary"
+            <button
+              type="button"
+              onClick={() => openProjectInquiry(project.title)}
+              aria-label={`Discuss ${project.title} project`}
+              className="flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-white/10 text-primary transition-colors hover:border-primary/40 hover:bg-white/5"
             >
               <ArrowRight className="h-5 w-5 -rotate-45" strokeWidth={1.5} />
-            </span>
+            </button>
           </div>
         </div>
       </motion.article>
@@ -126,7 +129,7 @@ export default function Projects() {
   return (
     <section
       id="projects"
-      className="relative bg-black px-4 py-16 sm:px-6 md:py-24 lg:px-8"
+      className="relative scroll-mt-20 bg-black px-4 py-16 sm:px-6 md:py-24 lg:px-8"
     >
       <div className="bg-noise pointer-events-none absolute inset-0 opacity-[0.15]" />
 

@@ -1,5 +1,8 @@
-import { useState } from 'react'
+import { useState, type FormEvent } from 'react'
 import { ChevronDown, ChevronUp } from 'lucide-react'
+import SectionLink from '../components/SectionLink'
+import { SECTIONS } from '../config/site'
+import { openEmail, scrollToSection } from '../utils/navigation'
 
 const FAQ_ITEMS = [
   {
@@ -29,15 +32,37 @@ const FAQ_ITEMS = [
   },
 ]
 
-const NAV_LINKS = ['About', 'Projects', 'Services', 'Contact']
-const PAGE_LINKS = ['Home', 'Portfolio', 'Contact']
+const NAV_LINKS: { label: string; target: (typeof SECTIONS)[keyof typeof SECTIONS] }[] = [
+  { label: 'About', target: SECTIONS.about },
+  { label: 'Projects', target: SECTIONS.projects },
+  { label: 'Services', target: SECTIONS.services },
+  { label: 'Contact', target: SECTIONS.contact },
+]
+
+const PAGE_LINKS: { label: string; target: (typeof SECTIONS)[keyof typeof SECTIONS] | 'top' }[] = [
+  { label: 'Home', target: 'top' },
+  { label: 'Portfolio', target: SECTIONS.projects },
+  { label: 'Contact', target: SECTIONS.contact },
+]
 
 export default function CtaFaqFooter() {
   const [activeIndex, setActiveIndex] = useState<number | null>(0)
   const [ctaShadow, setCtaShadow] = useState('0 12px 32px rgba(0, 0, 0, 0.5), 0 0 40px rgba(232, 200, 114, 0.15)')
+  const [newsletterEmail, setNewsletterEmail] = useState('')
 
   const toggleFaq = (index: number) => {
     setActiveIndex((prev) => (prev === index ? null : index))
+  }
+
+  const handleNewsletter = (e: FormEvent) => {
+    e.preventDefault()
+    const email = newsletterEmail.trim()
+    if (!email) return
+    openEmail(
+      'Newsletter signup — wb.dev',
+      `Please add this email to the newsletter list:\n\n${email}`,
+    )
+    setNewsletterEmail('')
   }
 
   return (
@@ -74,6 +99,7 @@ export default function CtaFaqFooter() {
                   fontSize: '0.95rem',
                   boxShadow: ctaShadow,
                 }}
+                onClick={() => scrollToSection(SECTIONS.contact)}
                 onMouseEnter={() =>
                   setCtaShadow(
                     '0 16px 40px rgba(0, 0, 0, 0.55), 0 0 56px rgba(232, 200, 114, 0.28)',
@@ -147,14 +173,14 @@ export default function CtaFaqFooter() {
             <div>
               <h4 className="mb-5 text-[0.95rem] font-semibold text-primary">Navigation</h4>
               <ul>
-                {NAV_LINKS.map((label) => (
+                {NAV_LINKS.map(({ label, target }) => (
                   <li key={label} className="mb-3">
-                    <a
-                      href="#"
+                    <SectionLink
+                      target={target}
                       className="text-[0.85rem] text-gray-500 no-underline transition-colors duration-200 hover:text-[#E1E0CC]"
                     >
                       {label}
-                    </a>
+                    </SectionLink>
                   </li>
                 ))}
               </ul>
@@ -163,14 +189,14 @@ export default function CtaFaqFooter() {
             <div>
               <h4 className="mb-5 text-[0.95rem] font-semibold text-primary">Pages</h4>
               <ul>
-                {PAGE_LINKS.map((label) => (
+                {PAGE_LINKS.map(({ label, target }) => (
                   <li key={label} className="mb-3">
-                    <a
-                      href="#"
+                    <SectionLink
+                      target={target}
                       className="text-[0.85rem] text-gray-500 no-underline transition-colors duration-200 hover:text-[#E1E0CC]"
                     >
                       {label}
-                    </a>
+                    </SectionLink>
                   </li>
                 ))}
               </ul>
@@ -181,9 +207,15 @@ export default function CtaFaqFooter() {
               <p className="mb-[15px] text-[0.85rem] text-gray-500">
                 Tips on conversion-focused sites—no spam, just practical notes.
               </p>
-              <div className="flex gap-[10px] max-[480px]:flex-col">
+              <form
+                className="flex gap-[10px] max-[480px]:flex-col"
+                onSubmit={handleNewsletter}
+              >
                 <input
                   type="email"
+                  required
+                  value={newsletterEmail}
+                  onChange={(e) => setNewsletterEmail(e.target.value)}
                   placeholder="Enter your email..."
                   className="flex-grow rounded-[10px] border border-white/10 bg-[#212121] text-[0.9rem] text-[#E1E0CC] outline-none transition-colors duration-200 placeholder:text-gray-600 focus:border-gold/40"
                   style={{
@@ -192,7 +224,7 @@ export default function CtaFaqFooter() {
                   }}
                 />
                 <button
-                  type="button"
+                  type="submit"
                   className="cursor-pointer rounded-[10px] border-none bg-primary font-semibold text-black transition-all duration-200 hover:-translate-y-0.5"
                   style={{
                     padding: '12px 28px',
@@ -202,7 +234,7 @@ export default function CtaFaqFooter() {
                 >
                   Subscribe
                 </button>
-              </div>
+              </form>
             </div>
           </div>
 

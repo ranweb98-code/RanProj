@@ -2,15 +2,22 @@ import { ArrowRight } from 'lucide-react'
 import WordsPullUp from '../components/WordsPullUp'
 import Marquee from '../components/Marquee'
 import FadeIn from '../components/FadeIn'
+import SectionLink from '../components/SectionLink'
+import { SECTIONS } from '../config/site'
 
-const NAV_LINKS = ['About', 'Projects', 'Why me', 'Contact']
+const NAV_LINKS: { label: string; target: (typeof SECTIONS)[keyof typeof SECTIONS] }[] = [
+  { label: 'About', target: SECTIONS.about },
+  { label: 'Projects', target: SECTIONS.projects },
+  { label: 'Why me', target: SECTIONS.why },
+  { label: 'Contact', target: SECTIONS.contact },
+]
 
 const HERO_VIDEO =
   'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260405_170732_8a9ccda6-5cff-4628-b164-059c500a2b41.mp4'
 
 export default function Hero() {
   return (
-    <section className="relative h-screen w-full p-4 md:p-6">
+    <section id="home" className="relative h-screen w-full p-4 md:p-6">
       <div className="relative flex h-full flex-col overflow-hidden rounded-2xl md:rounded-[2rem]">
         <video
           autoPlay
@@ -30,17 +37,21 @@ export default function Hero() {
         <FadeIn delay={0} y={-20} className="absolute left-1/2 top-0 z-20 -translate-x-1/2">
           <nav>
             <div className="flex items-center gap-3 rounded-b-2xl bg-black px-4 py-2 sm:gap-6 md:gap-12 md:rounded-b-3xl md:px-8">
-              {NAV_LINKS.map((label) => (
-                <span
+              {NAV_LINKS.map(({ label, target }) => (
+                <SectionLink
                   key={label}
-                  className="cursor-default text-[10px] text-[rgba(225,224,204,0.8)] transition-colors hover:text-[#E1E0CC] sm:text-xs md:text-sm"
+                  target={target}
+                  className="cursor-pointer text-[10px] text-[rgba(225,224,204,0.8)] no-underline transition-colors hover:text-[#E1E0CC] sm:text-xs md:text-sm"
                 >
                   {label}
-                </span>
+                </SectionLink>
               ))}
-              <span className="ml-1 cursor-default whitespace-nowrap text-[10px] font-medium text-primary sm:text-xs md:text-sm">
+              <SectionLink
+                target={SECTIONS.contact}
+                className="ml-1 cursor-pointer whitespace-nowrap text-[10px] font-medium text-primary no-underline transition-opacity hover:opacity-80 sm:text-xs md:text-sm"
+              >
                 Start a project
-              </span>
+              </SectionLink>
             </div>
           </nav>
         </FadeIn>
@@ -74,15 +85,15 @@ export default function Hero() {
 
               <FadeIn delay={0.5} y={20}>
                 <div className="flex flex-col gap-3">
-                  <span
-                    role="presentation"
-                    className="group inline-flex w-fit cursor-default items-center gap-2 rounded-full bg-primary pl-5 pr-1.5 py-1.5 text-sm font-medium text-black transition-all duration-300 hover:gap-4"
+                  <SectionLink
+                    target={SECTIONS.contact}
+                    className="group inline-flex w-fit cursor-pointer items-center gap-2 rounded-full bg-primary pl-5 pr-1.5 py-1.5 text-sm font-medium text-black no-underline transition-all duration-300 hover:gap-4"
                   >
                     <span>Let&apos;s build your site</span>
                     <span className="flex h-9 w-9 items-center justify-center rounded-full bg-black text-primary transition-transform duration-300 group-hover:scale-110">
                       <ArrowRight className="h-4 w-4" strokeWidth={2} />
                     </span>
-                  </span>
+                  </SectionLink>
                   <div className="flex items-center gap-2 text-[10px] text-primary/60 sm:text-xs">
                     <span className="relative flex h-2 w-2">
                       <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />

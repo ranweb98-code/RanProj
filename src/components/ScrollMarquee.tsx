@@ -1,11 +1,15 @@
 import { useEffect, useRef, useState } from 'react'
-import { MARQUEE_IMAGES } from '../data/projects'
+import { MARQUEE_ROW1_IMAGES, MARQUEE_ROW2_IMAGES } from '../data/projects'
 
 const TILE_WIDTH = 420
 const TILE_HEIGHT = 270
 
-const BASE_IMAGES = MARQUEE_IMAGES
-const LOOP_IMAGES = [...BASE_IMAGES, ...BASE_IMAGES, ...BASE_IMAGES]
+function tripleImages(images: { src: string; alt: string }[]) {
+  return [...images, ...images, ...images]
+}
+
+const ROW1_IMAGES = tripleImages(MARQUEE_ROW1_IMAGES)
+const ROW2_IMAGES = tripleImages(MARQUEE_ROW2_IMAGES)
 
 export default function ScrollMarquee() {
   const sectionRef = useRef<HTMLElement>(null)
@@ -35,8 +39,8 @@ export default function ScrollMarquee() {
     }
   }, [])
 
-  const row1 = LOOP_IMAGES
-  const row2 = [...LOOP_IMAGES].reverse()
+  const row1 = ROW1_IMAGES
+  const row2 = ROW2_IMAGES
 
   return (
     <section
@@ -59,7 +63,7 @@ export default function ScrollMarquee() {
               alt={img.alt}
               width={TILE_WIDTH}
               height={TILE_HEIGHT}
-              loading="eager"
+              loading="lazy"
               className="h-[270px] w-[420px] shrink-0 rounded-2xl object-cover"
             />
           ))}
@@ -78,7 +82,7 @@ export default function ScrollMarquee() {
               alt={img.alt}
               width={TILE_WIDTH}
               height={TILE_HEIGHT}
-              loading="eager"
+              loading="lazy"
               className="h-[270px] w-[420px] shrink-0 rounded-2xl object-cover"
             />
           ))}
