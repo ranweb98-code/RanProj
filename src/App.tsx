@@ -30,7 +30,7 @@ export default function App() {
   }, [])
 
   return (
-    <div className="min-h-screen bg-black text-[#E1E0CC]">
+    <div className="min-h-screen overflow-x-clip bg-black text-[#E1E0CC]">
       <Hero />
       <ScrollMarquee />
       <About />

@@ -8,11 +8,17 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: clip;
 }
 
 body {
   background-color: #000000;
   color: #E1E0CC;
+  overflow-x: clip;
+}
+
+#root {
+  overflow-x: clip;
 }
 
 .noise-overlay {
