@@ -21,6 +21,8 @@ export default function WordsPullUp({
   const isInView = useInView(ref, { once: true, margin: '-50px' })
   const words = text.split(' ')
   const useGradient = className.includes('hero-heading')
+  const usesSharpie = className.includes('font-sharpie')
+  const wordClass = usesSharpie ? `${WORD_CLASS} font-sharpie font-black` : WORD_CLASS
 
   return (
     <Tag
@@ -31,7 +33,7 @@ export default function WordsPullUp({
       {words.map((word, i) => (
         <motion.span
           key={`${word}-${i}`}
-          className={WORD_CLASS}
+          className={wordClass}
           initial={{ opacity: 0, y: '0.35em' }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: '0.35em' }}
           transition={{

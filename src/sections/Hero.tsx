@@ -64,7 +64,7 @@ export default function Hero() {
                   as="h1"
                   text="Websites that bring clients."
                   showAsterisk
-                  className="font-sharpie text-[9vw] font-extrabold leading-[0.92] tracking-[-0.02em] text-[#E1E0CC] sm:text-[10vw] md:text-[11vw] lg:text-[12vw]"
+                  className="font-sharpie text-[10vw] font-black uppercase leading-[0.88] tracking-[0.01em] text-[#E1E0CC] sm:text-[11vw] md:text-[12vw] lg:text-[13vw]"
                 />
               </FadeIn>
             </div>

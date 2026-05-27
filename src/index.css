@@ -18,8 +18,23 @@
   font-display: swap;
 }
 
-* {
+@font-face {
+  font-family: 'Sharpie';
+  src: url('/fonts/sharpie/Sharpie-Black.woff2') format('woff2');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+html,
+body {
   font-family: 'Heebo', system-ui, -apple-system, sans-serif;
+}
+
+.font-sharpie,
+.font-sharpie * {
+  font-family: 'Sharpie', 'Heebo', sans-serif;
+  font-synthesis: none;
 }
 
 html {
